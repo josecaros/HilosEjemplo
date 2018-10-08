@@ -34,6 +34,7 @@ void *procesarCliente(void *arg) {
   Sleep((unsigned) 5000);
 }
 
+//Selecciona el numero menor de cajas[].pila
 int seleccionarCajero(){
   int a=0;
   int min=cajas[0].pila;
@@ -62,10 +63,14 @@ int seleccionarCajero(){
 }
 
 int main (char arg, char* args){
+  //Establece las cajas, es como un Constructor de la cantidad de cajas
   establecerCajas();
+  //Crear un numero random de clientes y de los argumentos q estos poseen
   time_t t;
   srand((unsigned) time(&t));
-  int ranN = 10;
+  int ranN = 10; //para mostrar le puse 10, pero deberian de ser un aleatorio
+
+  //Creamos e iniciamos a todos los clientes
   struct Cliente cliente[ranN];
   for(int i = 0; i < ranN; ++i) {
     cliente[i].numer=i;
@@ -74,13 +79,14 @@ int main (char arg, char* args){
     cliente[i].caja=-1;
   }
 
+  //Creamos el hilo y le añadimos atributos, Se puede trabajar con atributos NULL tambien
   pthread_t hilo;
 
   //Create atribute
   pthread_attr_t attri;
   pthread_attr_init(&attri);
 
-
+  //Preguntamos por cada Cliente y lo mandamos a la caja con menor cantidad en su Cola
   for(int j = 0; j < ranN; ++j) {
     int pil=seleccionarCajero();
     cliente[j].caja=pil;
